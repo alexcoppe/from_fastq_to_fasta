@@ -14,15 +14,17 @@
 #include<string.h>
 
 
+void split_line_with_newlines(char *string);
+
+
 int main(int argc, char *argv[]){
     const int STRING_MAX_LEN = 350;
     char line[STRING_MAX_LEN + 1];
     FILE *file;
     char ch;
-    char *label;
     int exit = 0;
     _Bool READ_LABEL = 0;
-    int string_lenght;
+    int string_length;
     char *seq;
 
 
@@ -63,19 +65,36 @@ int main(int argc, char *argv[]){
 
     while (fgets(line, STRING_MAX_LEN, file)) {
         if (line[0] == '@'){
-            label = line + 1;
-            fprintf(stdout, ">%s", label);
             READ_LABEL = 1;
+            printf(">%s", line + 1);
             continue;
         }
 
         if (READ_LABEL == 1) {
             seq = line;
-            string_lenght = strlen(seq);
-            fprintf(stdout, "%s", seq);
+            string_length = strlen(seq);
+
+            /* Split and print the DNA/RNA strings by new lines */
+            split_line_with_newlines(seq);
+
             READ_LABEL = 0;
             continue;
         }
+
     }
 
+}
+
+
+void split_line_with_newlines(char *string) {
+    int start = 0;
+    int length = 80;
+    int string_length = strlen(string);
+
+    /* .*: width specifier/precision */
+    printf("%.*s\n", length , string );
+    while (start < string_length) {
+        printf("%.*s", length , string + (start + length) );
+        start = start + length;
+    }
 }
