@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
     while (fgets(line, STRING_MAX_LEN, file)) {
         if (line[0] == '@'){
             READ_LABEL = 1;
-            printf(">%s", line + 1);
+            fprintf(stdout, ">%s", line + 1);
             continue;
         }
 
@@ -91,10 +91,9 @@ void split_line_with_newlines(char *string) {
     int length = 80;
     int string_length = strlen(string);
 
-    /* .*: width specifier/precision */
-    printf("%.*s\n", length , string );
+    fprintf(stdout, "%.*s\n", length, string);
     while (start < string_length) {
-        printf("%.*s", length , string + (start + length) );
+        fprintf(stdout, "%.*s", length, string + (start + length));
         start = start + length;
     }
 }
